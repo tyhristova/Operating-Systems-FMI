@@ -3,6 +3,9 @@ dir5/file1
 dir5/file2
 dir5/file3
 
+mkdir dir5
+touch dir5/file1 dir5/file2 dir5/file3
+
 Посредством vi въведете следното съдържание:
 file1:
 1
@@ -27,5 +30,12 @@ file3:
 
 Изведете на екрана:
 	* статистика за броя редове, думи и символи за всеки един файл
+		cat dir5/file1 | wc -lwm
+		cat dir5/file2 | wc -lwm
+		cat dir5/file3 | wc -lwm
+
 	* статистика за броя редове и символи за всички файлове
+		cat dir5/file* | wc -lm
+
 	* общия брой редове на трите файла
+		cat dir5/file* | wc -l

@@ -1,1 +1,4 @@
 Колко файлове в /bin са 'shell script'-oве? (Колко файлове в дадена директория са ASCII text?)
+
+file /bin/* | grep -c 'shell script'
+file /bin/* | grep -c 'ASCII text'
