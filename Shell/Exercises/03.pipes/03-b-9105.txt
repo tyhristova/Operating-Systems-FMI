@@ -1,1 +1,3 @@
 Да се преброят/изведат само песните на Beatles и Pink.
+
+ls songs | grep -E '^(Beatles|Pink) -' | awk -F ' - | \\(' '{print $2}' | wc -l

@@ -2,3 +2,5 @@
 от две думи да се напишат слято:
 
 Beatles, PinkFloyd, Madness
+
+ls songs | awk -F' - ' '{print $1}' | tr -d ' ' | sort -u | xargs -I {} mkdir {}
