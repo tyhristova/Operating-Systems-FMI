@@ -1,2 +1,5 @@
 Използвайки файл population.csv, намерете коя държава има най-много население през 2016. А коя е с най-малко население?
 (Hint: Погледнете имената на държавите)
+
+awk -F ',' 'BEGIN {max=-1} $3 == 2016 { if ($4 > max) { max = $4; country = $1 } } END {print country, max}' population.csv
+awk -F ',' 'BEGIN {min=1e15} $3 == 2016 { if ($4 < min) { min = $4; country = $1 } } END {print country, min}' population.csv

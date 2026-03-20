@@ -1,2 +1,5 @@
 Използвайки файл population.csv, намерете колко е общото население на света
 през 2008 година. А през 2016?
+
+awk -F "," '$3 == 2008 {sum += $4} END {print sum}' population.csv
+awk -F "," '$3 == 2016 {sum += $4} END {print sum}' population.csv
