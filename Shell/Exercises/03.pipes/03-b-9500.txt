@@ -39,3 +39,11 @@ x-yyyyyy zz ww
 	- yyyyyy е името на диска
 	- zz е current temperature
 	- ww е max temperature
+
+
+awk '
+/^[[:space:]]*Array / { array=$2 }
+/^[[:space:]]*physicaldrive / { drive=$2 }
+/Current Temperature \(C\):/ { curr=$NF }
+/Maximum Temperature \(C\):/ { print array "-" drive, curr, $NF }
+' ssa-input.txt
