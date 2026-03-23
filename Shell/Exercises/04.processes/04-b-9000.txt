@@ -1,1 +1,14 @@
 Да се отпечатат PID на всички процеси, които имат повече деца от родителския си процес.
+
+ps -eo pid=,ppid= | awk '
+{
+    pid[NR] = $1
+    ppid[NR] = $2
+    children[$2]++
+}
+END {
+    for (i = 1; i <= NR; i++) {
+        if (children[pid[i]] > children[ppid[i]])
+            print pid[i]
+    }
+}'

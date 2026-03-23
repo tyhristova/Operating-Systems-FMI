@@ -1,1 +1,3 @@
 Изведете командата на най-стария процес
+
+ps -eo etimes,cmd --sort=-etimes | head -n 2 | tail -n 1

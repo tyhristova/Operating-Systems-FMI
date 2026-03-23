@@ -1,1 +1,7 @@
 Намерете колко физическа памет заемат всички процеси на потребителската група root.
+
+# first attempt
+ps aux | grep '^root' | awk 'BEGIN {sum=0} {sum+=$6} END {print sum}'
+
+# better approach
+ps -U root -o rss= | awk 'BEGIN {sum=0} {sum+=$1} END {print sum}'
