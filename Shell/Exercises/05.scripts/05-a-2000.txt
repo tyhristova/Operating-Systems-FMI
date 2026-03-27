@@ -1,1 +1,6 @@
 Сменете вашия prompt с нещо по желание. После върнете оригиналния обратно.
+
+ OLD_PS1="$PS1"
+ export PS1="custom_prompt:"
+ export PS1="$OLD_PS1"
+ 

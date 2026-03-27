@@ -21,3 +21,36 @@ int main(int argc, char *argv[]) {
 
 Изход:
 The deepest nesting is 2 levels
+
+
+#!/bin/bash
+
+if [ "${#}" -ne 1 ]; then
+    exit 1
+fi
+
+file="$1"
+
+if [ ! -f "$file" ]; then
+    exit 2
+fi
+
+depth=0
+max_depth=0
+
+while IFS= read -r line; do
+    for (( i=0; i<${#line}; i++ )); do
+        char="${line:i:1}"
+
+        if [ "${char}" = "{" ]; then
+            depth=$((depth + 1))
+            if [ "${depth}" -gt "${max_depth}" ]; then
+                max_depth=${depth}
+            fi
+        elif [ "${char}" = "}" ]; then
+            depth=$((depth - 1))
+        fi
+    done
+done < "$file"
+
+echo "The deepest nesting is ${max_depth} levels"

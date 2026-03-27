@@ -1,1 +1,17 @@
 Да се напише shell скрипт, който приема точно един параметър и проверява дали подаденият му параметър се състои само от букви и цифри.
+
+#!/bin/bash
+
+if [ "${#}" -ne 1 ]; then  
+    exit 1
+fi
+
+input="$1"
+
+if echo "$input" | grep -Eq '^[a-zA-Z0-9]+$'; then
+    echo "OK"
+    exit 0
+else
+    echo "NOT OK"
+    exit 2
+fi

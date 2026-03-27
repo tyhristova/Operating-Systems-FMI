@@ -1,1 +1,16 @@
-Да се напише shell скрипт, който приканва потребителя да въведе пълното име на директория и извежда на стандартния изход подходящо съобщение за броя на всички файлове и всички директории в нея.
+Да се напише shell скрипт, който приканва потребителя да въведе пълното име на директория 
+и извежда на стандартния изход подходящо съобщение за броя на всички файлове и всички директории в нея.
+
+#!/bin/bash 
+
+read -p "Enter full directory name: " dir_name
+
+if [ ! -d "$dir_name" ]; then
+    echo "Invalid directory!"
+    exit 1
+fi
+
+file_count=$(find "$dir_name" -type f | wc -l)
+dir_count=$(find "$dir_name" -mindepth 1 -maxdepth 1 -type d | wc -l) #ако се изисква само едно ниво 
+
+echo "$dir_name has $dir_count directories and $file_count files."

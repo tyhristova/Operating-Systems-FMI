@@ -1,1 +1,6 @@
 Направете си ваш псевдоним (alias) на полезна команда.
+
+alias xPerm="chmod u+x " 
+
+alias gs="git status"
+alias ..="cd .."
