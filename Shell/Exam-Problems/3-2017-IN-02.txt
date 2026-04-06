@@ -2,13 +2,5 @@
 а) всички файлове в текущата директория и нейните поддиректории, които са с нулева дължина.
 б) 5-е най-големи файла в home директорията на текущия потребител и нейните поддиректории.
 
-#!/bin/bash
-
-if [[ ${#} -ne 0 ]]; then
-    echo "Invalid input"
-    exit 1
-fi
-
-find . -type f -size 0 -delete
-
-find ~ -type f -printf "%s %p\n" 2>/dev/null | sort -nr | head -n 5 | cut -d
+a) find  -type f -size 0 -exec rm -i {} \;          or         find . -type f -size 0 -delete
+b) find ~ -type f -printf "%s %p\n" 2>/dev/null | sort -nr | head -n 5 | awk '{print $2}' | xargs -I {} rm -r {}

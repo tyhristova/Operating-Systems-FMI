@@ -9,15 +9,4 @@ MMU_2.4
 Примерен изход:
 Броят на търсените редовете е 2
 
-#!/bin/bash
-
-if [[ "${#}" -ne 1 ]]; then
-    echo "Invalid number of parameters!"
-    exit 1
-fi
-
-input=${1}
-
-count=$(cat "${input}" | grep -E '[02468]' | grep -v '[a-w]' | wc -l)
-
-echo "Броят на търсените редовете е ${count}"
+echo "Броят на търсените редове е" $(cat philip-j-fry.txt | egrep '[02468]' | egrep -v '[a-w]' | wc -l)

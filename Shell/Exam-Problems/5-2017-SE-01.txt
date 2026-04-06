@@ -1,16 +1,6 @@
 Намерете имената на топ 5 файловете в текущата директория с най-много hardlinks.
 
-#!/bin/bash
-
-if [[ ${#} -ne 0 ]]; then
-    echo "Invalid input"
-    exit 1
-fi
-
-answer=$(find . -type f -printf "%n %f\n" | sort -rn | head -n 5 | cut -d " " -f 2-)
-
-echo "${answer}"
-
+find . -maxdepth 1 -type f -printf "%n %f\n" | sort -rn | head -n 5 | cut -d " " -f 2-
 
  // %n - hardlinks 
  // %f - filename

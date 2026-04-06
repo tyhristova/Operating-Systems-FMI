@@ -59,4 +59,3 @@ answer=$(grep ',,,,I' /etc/passwd \
 | head -n 1)
 
 echo "${answer}"
- 
