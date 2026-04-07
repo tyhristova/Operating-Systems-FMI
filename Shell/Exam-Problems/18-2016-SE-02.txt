@@ -4,9 +4,54 @@
 Ако за някой потребител обобщеното число надвишава подадения параметър, да изпраща подходящи
 сигнали за прекратяване на процеса с най-много активна памет на потребителя.
 Забележка: Приемаме, че изхода в колоната RSS е число в същата мерна единица, като числото, подадено като аргумент. Примерен формат:
-5
-USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-root 1 0.0 0.0 15816 1884 ? Ss May12 0:03 init [2]
-root 2 0.0 0.0 0 0 ? S May12 0:00 [kthreadd]
-root 3 0.0 0.0 0 0 ? S May12 0:02 [ksoftirqd/0]
+
+USER PID %CPU %MEM VSZ   RSS TTY STAT START TIME COMMAND
+root   1  0.0  0.0 15816 1884  ?   Ss May12 0:03 init [2]
+root   2  0.0  0.0 0       0   ?    S May12 0:00 [kthreadd]
+root   3  0.0  0.0 0       0   ?    S May12 0:02 [ksoftirqd/0]
 Забележка: Алтернативно може да ползвате изхода от ps -e -o uid,pid,rss
+
+#!/bin/bash
+
+if [[ ${#} -ne 1 ]]; then
+    echo "Invalid number of arguments!"
+    exit 1
+fi
+
+if [[ ! "${1}" =~ ^[0-9]+$ ]]; then
+    echo "Argument must be a number!"
+    exit 1
+fi
+
+if [[ "$EUID" -ne 0 ]]; then
+    echo "This script must be run as root!"
+    exit 2
+fi
+
+limit="$1"
+
+ps -e -o uid=,pid=,rss= | awk '
+{
+    uid = $1
+    pid = $2
+    rss = $3
+
+    sum[uid] += rss
+
+    if (!(uid in maxrss) || rss > maxrss[uid]) {
+        maxrss[uid] = rss
+        maxpid[uid] = pid
+    }
+}
+END {
+    for (uid in sum) {
+        print uid, sum[uid], maxpid[uid]
+    }
+}
+' | while read -r uid total_rss pid_to_kill; do
+    echo "UID: ${uid} RSS: ${total_rss}"
+
+    if [[ "${total_rss}" -gt "${limit}" ]]; then
+        kill -TERM "${pid_to_kill}"
+    fi
+done

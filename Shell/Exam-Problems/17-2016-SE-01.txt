@@ -10,13 +10,13 @@ fi
 
 dir="$1"
 
-if [[ ! -d "$dir" ]]; then
+if [[ ! -d "${dir}" ]]; then
     echo "Not a directory"
     exit 1
 fi
 
-find "$dir" -type l | while read link; do
-    if [[ ! -e "$link" ]]; then
-        echo "$link"
+find "${dir}" -type l | while read link; do
+    if [[ ! -e "${link}" ]]; then
+        echo "${link}"
     fi
 done
