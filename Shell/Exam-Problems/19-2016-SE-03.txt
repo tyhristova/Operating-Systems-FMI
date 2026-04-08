@@ -5,3 +5,23 @@
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
+
+#!/bin/bash
+
+# Проверка за root
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root"
+  exit 1
+fi
+
+while IFS=: read -r user _ _ _ _ home _; do
+  # Проверка дали home съществува
+  if [[ ! -d "${home}" ]]; then
+    echo "${user} has no home directory: ${home}"
+  
+  # Проверка за write права
+  elif [[ ! -w "${home}" ]]; then
+    echo "${user} cannot write in home directory: ${home}"
+  
+  fi
+done < /etc/passwd

@@ -28,8 +28,8 @@ if [[ ${#} -ne 0 ]]; then
     exit 1
 fi
 
-answer=$(grep ', Inf,' /etc/passwd \
-| grep -E ':[^:]* [^:]*a,' \
+answer=$(grep ':/home/Inf/' /etc/passwd \
+| grep -E ':[^:]* [^:]*a[,:]' \
 | cut -d: -f1 \
 | cut -c3-4 \
 | sort \
