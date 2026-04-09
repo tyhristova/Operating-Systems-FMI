@@ -19,3 +19,6 @@ SRC, директория DST (която не трябва да съдържа 
 /dst/foof.txt
 /dst/1/foo.txt
 /dst/2/1/foobar.txt
+
+
+
