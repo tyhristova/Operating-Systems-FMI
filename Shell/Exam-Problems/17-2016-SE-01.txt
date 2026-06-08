@@ -20,3 +20,9 @@ find "${dir}" -type l | while read link; do
         echo "${link}"
     fi
 done
+
+#or
+#find "${dir}" -xtype l
+
+#or
+#find "${dir}" -type l ! -exec test -e {} \; -print

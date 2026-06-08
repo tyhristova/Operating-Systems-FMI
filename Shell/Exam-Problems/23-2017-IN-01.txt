@@ -142,8 +142,8 @@ if [[ ! -f "${file}" ]]; then
     exit 2
 fi
 
-val1=$(grep "^${key1}=" "${file}" | cut -d '=' -f 2)
-val2=$(grep "^${key2}=" "${file}" | cut -d '=' -f 2)
+val1=$(grep "^${key1}=" "${file}" | cut -d '=' -f 2-)
+val2=$(grep "^${key2}=" "${file}" | cut -d '=' -f 2-)
 
 list1=$(echo "${val1}" | tr ' ' '\n')
 list2=$(echo "${val2}" | tr ' ' '\n')

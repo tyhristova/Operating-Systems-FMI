@@ -42,8 +42,8 @@ if [[ ! -f "${file1}" || ! -f "${file2}" ]]; then
     exit 2
 fi
 
-count1=$(grep -cF "${1}" "${file1}")
-count2=$(grep -cF "${2}" "${file2}")
+count1=$(wc -l < "${file1}")
+count2=$(wc -l < "${file2}")
 
 if [[ ${count1} -ge ${count2} ]]; then
     winner="${file1}"
