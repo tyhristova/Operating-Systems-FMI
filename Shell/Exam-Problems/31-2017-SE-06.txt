@@ -64,3 +64,6 @@ while IFS=: read -r user _ uid _ _ home _; do
         fi
     fi
 done < /etc/passwd
+
+
+# ${perms:2:1} -> взима substring от 2-ра позиция 1 символ (drwxr-xr-x)

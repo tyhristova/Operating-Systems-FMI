@@ -57,3 +57,7 @@ for file in "${@}"; do
         echo "${timestamp} ${idf} ${data}"
     done
 done | sort
+
+
+# idf="${file##*/}" -> пропуска всички */
+# idf="${idf%.log}" -> записва idf без първото .log накрая 
