@@ -1,0 +1,53 @@
+# Напишете скрипт, който ако се изпълнява от root потребителя:
+#     а) извежда обобщена информация за броя и общото количество активна памет (RSS - resident set
+#     size, non-swaped physical memory that a task has used) на текущите процеси на всеки потребител;
+#     б) ако процесът с най-голяма активна памет на даден потребител използва два пъти повече памет
+#     от средното за потребителя, то скриптът да прекратява изпълнението му по подходящ начин.
+
+# За справка:
+#     $ ps aux | head -5
+#     USER PID %CPU %MEM   VSZ  RSS TTY STAT START TIME COMMAND
+#     root   1  0.0  0.0 15820 1052   ? Ss   Apr21 0:06 init [2]
+#     root   2  0.0  0.0     0    0   ? S    Apr21 0:00 [kthreadd]
+#     root   3  0.0  0.0     0    0   ? S    Apr21 0:02 [ksoftirqd/0]
+#     root   5  0.0  0.0     0    0   ? S<   Apr21 0:00 [kworker/0:0H]
+
+# Алтернативно, може да ползвате изхода от ps -e -o uid,pid,rss
+
+
+#!/bin/bash
+
+if [[ ${#} -ne 0 ]]; then 
+    echo "No arguments are needed!"
+    exit 1
+fi
+
+if [[ ${EUID} -ne 0 ]]; then
+    echo "The script should be runned as root!"
+    exit 2
+fi
+
+# a)
+ps -e -o uid,pid,rss | awk 'NR != 1 {count[$1]++ sum[$1]+=$3} END {for (u in count) print u, count[u], sum[u]}'
+
+# b)
+ps -e -o uid,pid,rss | awk '
+{
+    count[$1]++
+    sum[$1] += $3
+
+    if ($3 > maxRss[$1]) {
+        maxRss[$1] = $3
+        maxPid[$1] = $2
+    }
+}
+END {
+    for (u in count) {
+        avg = sum[u] / count[u]
+        if (maxRss[u] > 2 * avg) {
+            print maxPid[u]
+        }
+    }
+}' | while read -r pid; do
+    kill -TERM "${pid}"
+done
